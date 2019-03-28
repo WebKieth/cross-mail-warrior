@@ -1,6 +1,6 @@
 {
   "name": "cross-mail-warrior",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "classNames replacer. Replace html and tag-placed css classNames on attributes for better crossplatforming of your email templates",
   "main": "index.js",
   "scripts": {
