@@ -45,28 +45,35 @@ class CrossMailWarrior{
 		if (this.setImportants) {
 			str = str.replace(/[\;]\n/g, ' !important;\n');
 		}
-		const regex = /\.([^:\s{.]+)/g;
-		let m;
+		const regex = /\.([^>,:\s{.]+)/gm;
+		let m,
+		matches = [];
 		while ((m = regex.exec(str)) !== null) {
 				if (m.index === regex.lastIndex) {
 						regex.lastIndex++;
 				}
-				str = this._replaceStyleString(str, m)
-		}
+				matches.push(m[0])
+		};
+		let uniqMatches = [...new Set(matches)];
+		uniqMatches.reverse().forEach(match => {
+			str = this._replaceStyleString(str, match)
+		});
 		$('style').html(str);
 		fs.writeFileSync(path.join(this.destDir, file), $.html(), 'utf-8');
 	}
-	_replaceStyleString(styles, entities) {
-		const currentClass = entities[0]
+	_replaceStyleString(styles, match) {
+		console.log("start replacing =================")
+		console.log(styles, match)
+		const currentClass = match;
 		let strToReplace = '';
 		for (let attr of this.setToAttrs) {
 			if (Number(strToReplace.length) === 0) {
-				strToReplace = `[${attr}=${this.valuePrefix}${currentClass.replace('.', '')}]`;
+				strToReplace = `[${attr}=${this.valuePrefix}${currentClass.replace('.', '')}] `;
 			} else {
-				strToReplace += `, [${attr}=${this.valuePrefix}${currentClass.replace('.', '')}]`;
+				strToReplace += `, [${attr}=${this.valuePrefix}${currentClass.replace('.', '')}] `;
 			}
 		}
-		let replaced = styles.replace(new RegExp(currentClass, 'g'), strToReplace);
+		let replaced = styles.replace(new RegExp('\\'+currentClass+'[^_:-]', 'g'), strToReplace);
 		return replaced;
 	}
 }
