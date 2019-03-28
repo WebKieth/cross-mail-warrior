@@ -45,7 +45,7 @@ class CrossMailWarrior{
 		if (this.setImportants) {
 			str = str.replace(/[\;]\n/g, ' !important;\n');
 		}
-		const regex = /\.([^{.]+)/g;
+		const regex = /\.([^:\s{.]+)/g;
 		let m;
 		while ((m = regex.exec(str)) !== null) {
 				if (m.index === regex.lastIndex) {
