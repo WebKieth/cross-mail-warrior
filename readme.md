@@ -1,4 +1,4 @@
-# Cross Mail Warrior
+# Cross-client Mail Service
 
 Small Class for inlined html email template cross-client responsibility.
 
